@@ -2,6 +2,8 @@ package cgltf
 
 import "core:c"
 
+foreign import cgltf "../../../library/cgltf/build/cgltf.lib"
+
 cgltf_size :: c.size_t;
 cgltf_bool :: c.int;
 cgltf_float :: f32;
@@ -674,7 +676,7 @@ cgltf_data :: struct
     file : cgltf_file_options,
 };
 
-foreign import cgltf "../../../library/cgltf/build/cgltf.lib"
+
 
 @(default_calling_convention="c")
 foreign cgltf
