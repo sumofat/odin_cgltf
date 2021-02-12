@@ -2,7 +2,8 @@ package cgltf
 
 import "core:c"
 
-foreign import cgltf "your project directory here!/cgltf.lib"
+//foreign import cgltf "your project directory here!/cgltf.lib"
+foreign import cgltf "../../../library/cgltf/build/cgltf.lib"
 
 cgltf_size :: c.size_t;
 cgltf_bool :: c.int;
@@ -17,7 +18,7 @@ file_type :: enum
 	file_type_glb,
 };
 
-cgltf_result :: enum 
+result :: enum 
 {
 	result_success,
 	result_data_too_short,
@@ -40,7 +41,7 @@ memory_options :: struct
 
 file_options ::  struct 
 {
-    read : proc(memory_options : ^memory_options,file_options : ^file_options,path : cstring,size : ^cgltf_size,data :  ^rawptr) -> cgltf_result,
+    read : proc(memory_options : ^memory_options,file_options : ^file_options,path : cstring,size : ^cgltf_size,data :  ^rawptr) -> result,
     release : proc(memory_options : ^memory_options,file_options : ^file_options,data : rawptr),
     user_data : rawptr,
 };
@@ -680,12 +681,12 @@ data :: struct
 @(default_calling_convention="c")
 foreign cgltf
 {
-    parse :: proc "c"(options : ^options,in_data : cstring,size : cgltf_size,out_data : ^^data) -> cgltf_result ---;
-    parse_file :: proc "c"( options : ^options,path : cstring,out_data : ^^data) ->cgltf_result ---;
-    load_buffers :: proc "c"(options : ^options,in_data : ^data,gltf_path : cstring) ->cgltf_result ---;
-    load_buffer_base64 :: proc "c"(options :  ^options, size : cgltf_size, base64 : cstring, out_data : ^rawptr ) ->cgltf_result ---;
+    parse :: proc "c"(options : ^options,in_data : cstring,size : cgltf_size,out_data : ^^data) -> result ---;
+    parse_file :: proc "c"( options : ^options,path : cstring,out_data : ^^data) ->result ---;
+    load_buffers :: proc "c"(options : ^options,in_data : ^data,gltf_path : cstring) ->result ---;
+    load_buffer_base64 :: proc "c"(options :  ^options, size : cgltf_size, base64 : cstring, out_data : ^rawptr ) ->result ---;
     decode_uri :: proc "c"(uri : cstring) ---;
-    validate :: proc "c"( data : ^data) ->cgltf_result ---;
+    validate :: proc "c"( data : ^data) ->result ---;
     free :: proc "c"(data : ^data) ---;
     node_transform_local :: proc "c"(node : ^node,out_matrix :  ^f32) ---;
     node_transform_world :: proc "c"(node : ^node,out_matrix :  ^f32) ---;
@@ -695,5 +696,5 @@ foreign cgltf
     accessor_read_index :: proc "c"(accessor  : ^accessor,  index : cgltf_size)-> cgltf_size  ---;
     num_components :: proc "c"(type : type) -> cgltf_size ---;    
     accessor_unpack_floats :: proc "c"(accessor : ^accessor,out :  ^f32,float_count :  cgltf_size) ->cgltf_size ---;
-    copy_extras_json :: proc "c"(data : ^data, extras : ^extras,dest : cstring,dest_size :  ^cgltf_size)  -> cgltf_result ---;
+    copy_extras_json :: proc "c"(data : ^data, extras : ^extras,dest : cstring,dest_size :  ^cgltf_size)  -> result ---;
 }
