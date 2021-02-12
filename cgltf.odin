@@ -10,655 +10,655 @@ cgltf_float :: f32;
 cgltf_int :: c.int;
 cgltf_uint :: c.uint;//unsigned int 
 
-cgltf_file_type :: enum 
+file_type :: enum 
 {
-	cgltf_file_type_invalid,
-	cgltf_file_type_gltf,
-	cgltf_file_type_glb,
+	file_type_invalid,
+	file_type_gltf,
+	file_type_glb,
 };
 
 cgltf_result :: enum 
 {
-	cgltf_result_success,
-	cgltf_result_data_too_short,
-	cgltf_result_unknown_format,
-	cgltf_result_invalid_json,
-	cgltf_result_invalid_gltf,
-	cgltf_result_invalid_options,
-	cgltf_result_file_not_found,
-	cgltf_result_io_error,
-	cgltf_result_out_of_memory,
-	cgltf_result_legacy_gltf,
+	result_success,
+	result_data_too_short,
+	result_unknown_format,
+	result_invalid_json,
+	result_invalid_gltf,
+	result_invalid_options,
+	result_file_not_found,
+	result_io_error,
+	result_out_of_memory,
+	result_legacy_gltf,
 };
 
-cgltf_memory_options :: struct
+memory_options :: struct
 {
     alloc:     proc(user: rawptr, size: cgltf_size) -> rawptr,
     free:      proc(user: rawptr, ptr: rawptr),
     user_data: rawptr,
 };
 
-cgltf_file_options ::  struct 
+file_options ::  struct 
 {
-    read : proc(memory_options : ^cgltf_memory_options,file_options : ^cgltf_file_options,path : cstring,size : ^cgltf_size,data :  ^rawptr) -> cgltf_result,
-    release : proc(memory_options : ^cgltf_memory_options,file_options : ^cgltf_file_options,data : rawptr),
+    read : proc(memory_options : ^memory_options,file_options : ^file_options,path : cstring,size : ^cgltf_size,data :  ^rawptr) -> cgltf_result,
+    release : proc(memory_options : ^memory_options,file_options : ^file_options,data : rawptr),
     user_data : rawptr,
 };
 
-cgltf_options :: struct
+options :: struct
 {
-    type : cgltf_file_type , /* invalid == auto detect */
+    type : file_type , /* invalid == auto detect */
     json_token_count : cgltf_size, /* 0 == auto */
-    memory : cgltf_memory_options ,
-    file : cgltf_file_options ,
+    memory : memory_options ,
+    file : file_options ,
 };
 
-cgltf_buffer_view_type :: enum
+buffer_view_type :: enum
 {
-	cgltf_buffer_view_type_invalid,
-	cgltf_buffer_view_type_indices,
-	cgltf_buffer_view_type_vertices,
+	buffer_view_type_invalid,
+	buffer_view_type_indices,
+	buffer_view_type_vertices,
 };
 
-cgltf_attribute_type :: enum
+attribute_type :: enum
 {
-	cgltf_attribute_type_invalid,
-	cgltf_attribute_type_position,
-	cgltf_attribute_type_normal,
-	cgltf_attribute_type_tangent,
-	cgltf_attribute_type_texcoord,
-	cgltf_attribute_type_color,
-	cgltf_attribute_type_joints,
-	cgltf_attribute_type_weights,
+	attribute_type_invalid,
+	attribute_type_position,
+	attribute_type_normal,
+	attribute_type_tangent,
+	attribute_type_texcoord,
+	attribute_type_color,
+	attribute_type_joints,
+	attribute_type_weights,
 };
 
-cgltf_component_type :: enum
+component_type :: enum
 {
-    cgltf_component_type_invalid,
-    cgltf_component_type_r_8, /* BYTE */
-    cgltf_component_type_r_8u, /* UNSIGNED_BYTE */
-    cgltf_component_type_r_16, /* SHORT */
-    cgltf_component_type_r_16u, /* UNSIGNED_SHORT */
-    cgltf_component_type_r_32u, /* UNSIGNED_INT */
-    cgltf_component_type_r_32f, /* FLOAT */
+    component_type_invalid,
+    component_type_r_8, /* BYTE */
+    component_type_r_8u, /* UNSIGNED_BYTE */
+    component_type_r_16, /* SHORT */
+    component_type_r_16u, /* UNSIGNED_SHORT */
+    component_type_r_32u, /* UNSIGNED_INT */
+    component_type_r_32f, /* FLOAT */
 };
 
-cgltf_type :: enum
+type :: enum
 {
-    cgltf_type_invalid,
-    cgltf_type_scalar,
-    cgltf_type_vec2,
-    cgltf_type_vec3,
-    cgltf_type_vec4,
-    cgltf_type_mat2,
-    cgltf_type_mat3,
-    cgltf_type_mat4,
+    type_invalid,
+    type_scalar,
+    type_vec2,
+    type_vec3,
+    type_vec4,
+    type_mat2,
+    type_mat3,
+    type_mat4,
 };
 
-cgltf_primitive_type  :: enum
+primitive_type  :: enum
 {
-    cgltf_primitive_type_points,
-    cgltf_primitive_type_lines,
-    cgltf_primitive_type_line_loop,
-    cgltf_primitive_type_line_strip,
-    cgltf_primitive_type_triangles,
-    cgltf_primitive_type_triangle_strip,
-    cgltf_primitive_type_triangle_fan,
+    primitive_type_points,
+    primitive_type_lines,
+    primitive_type_line_loop,
+    primitive_type_line_strip,
+    primitive_type_triangles,
+    primitive_type_triangle_strip,
+    primitive_type_triangle_fan,
 };
 
-cgltf_alpha_mode :: enum
+alpha_mode :: enum
 {
-	cgltf_alpha_mode_opaque,
-	cgltf_alpha_mode_mask,
-	cgltf_alpha_mode_blend,
+	alpha_mode_opaque,
+	alpha_mode_mask,
+	alpha_mode_blend,
 };
 
-cgltf_animation_path_type :: enum
+animation_path_type :: enum
 {
-	cgltf_animation_path_type_invalid,
-	cgltf_animation_path_type_translation,
-	cgltf_animation_path_type_rotation,
-	cgltf_animation_path_type_scale,
-	cgltf_animation_path_type_weights,
+	animation_path_type_invalid,
+	animation_path_type_translation,
+	animation_path_type_rotation,
+	animation_path_type_scale,
+	animation_path_type_weights,
 };
 
-cgltf_interpolation_type :: enum
+interpolation_type :: enum
 {
-	cgltf_interpolation_type_linear,
-	cgltf_interpolation_type_step,
-	cgltf_interpolation_type_cubic_spline,
+	interpolation_type_linear,
+	interpolation_type_step,
+	interpolation_type_cubic_spline,
 };
 
-cgltf_camera_type :: enum
+camera_type :: enum
 {
-	cgltf_camera_type_invalid,
-	cgltf_camera_type_perspective,
-	cgltf_camera_type_orthographic,
+	camera_type_invalid,
+	camera_type_perspective,
+	camera_type_orthographic,
 };
 
-cgltf_light_type :: enum
+light_type :: enum
 {
-    cgltf_light_type_invalid,
-    cgltf_light_type_directional,
-    cgltf_light_type_point,
-    cgltf_light_type_spot,
+    light_type_invalid,
+    light_type_directional,
+    light_type_point,
+    light_type_spot,
 };
 
-cgltf_extras :: struct
+extras :: struct
 {
       start_offset : cgltf_size,
       end_offset :cgltf_size,
 };
 
-cgltf_extension :: struct
+extension :: struct
 {
       name : cstring,
       data : cstring,
 };
 
-cgltf_buffer :: struct
+buffer :: struct
 {
     size : 	cgltf_size, 
     uri : cstring,
-    data : rawptr, /* loaded by cgltf_load_buffers */
-    extras : cgltf_extras,
+    data : rawptr, /* loaded by load_buffers */
+    extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
 
-cgltf_meshopt_compression_mode :: enum
+meshopt_compression_mode :: enum
 {
-	cgltf_meshopt_compression_mode_invalid,
-	cgltf_meshopt_compression_mode_attributes,
-	cgltf_meshopt_compression_mode_triangles,
-	cgltf_meshopt_compression_mode_indices,
+	meshopt_compression_mode_invalid,
+	meshopt_compression_mode_attributes,
+	meshopt_compression_mode_triangles,
+	meshopt_compression_mode_indices,
 };
 
-cgltf_meshopt_compression_filter :: enum
+meshopt_compression_filter :: enum
 {
-	cgltf_meshopt_compression_filter_none,
-	cgltf_meshopt_compression_filter_octahedral,
-	cgltf_meshopt_compression_filter_quaternion,
-	cgltf_meshopt_compression_filter_exponential,
+	meshopt_compression_filter_none,
+	meshopt_compression_filter_octahedral,
+	meshopt_compression_filter_quaternion,
+	meshopt_compression_filter_exponential,
 };
 
-cgltf_meshopt_compression:: struct
+meshopt_compression:: struct
 {
-    buffer : ^cgltf_buffer,
+    buffer : ^buffer,
     offset : cgltf_size,
     size : cgltf_size,
     stride : cgltf_size,
     count : cgltf_size,
-    mode : cgltf_meshopt_compression_mode,
-    filter : cgltf_meshopt_compression_filter,
+    mode : meshopt_compression_mode,
+    filter : meshopt_compression_filter,
 };
 
-cgltf_buffer_view :: struct
+buffer_view :: struct
 {
-    buffer : ^cgltf_buffer,
+    buffer : ^buffer,
     offset : cgltf_size,
     size : cgltf_size,
     stride : cgltf_size, /* 0 == automatically determined by accessor */
-    type : cgltf_buffer_view_type,
+    type : buffer_view_type,
     data : rawptr, /* overrides buffer->data if present, filled by extensions */
-    has_meshopt_compression : cgltf_bool,
-    meshopt_compression : cgltf_meshopt_compression,
-    extras : cgltf_extras,
+    has_meshopt_compression : bool,
+    meshopt_compression : meshopt_compression,
+    extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
 
-cgltf_accessor_sparse :: struct
+accessor_sparse :: struct
 {
     count : cgltf_size,
-    indices_buffer_view : ^cgltf_buffer_view,
+    indices_buffer_view : ^buffer_view,
     indices_byte_offset : cgltf_size,
-    indices_component_type : cgltf_component_type,
-    values_buffer_view : ^cgltf_buffer_view,
+    indices_component_type : component_type,
+    values_buffer_view : ^buffer_view,
     values_byte_offset : cgltf_size,
-    extras : cgltf_extras,
-    indices_extras : cgltf_extras,
-    values_extras : cgltf_extras,
+    extra : extras,
+    indices_extras : extras,
+    values_extras : extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
     indices_extensions_count : cgltf_size,
-    indices_extensions : ^cgltf_extension,
+    indices_extensions : ^extension,
     values_extensions_count : cgltf_size,
-    values_extensions : ^cgltf_extension,
+    values_extensions : ^extension,
 };
 
-cgltf_accessor :: struct
+accessor :: struct
 {
-    component_type : cgltf_component_type,
-    normalized : cgltf_bool,
-    type : cgltf_type,
+    component_type : component_type,
+    normalized : bool,
+    type : type,
     offset : cgltf_size,
     count : cgltf_size,
     stride : cgltf_size,
-    buffer_view : cgltf_buffer_view,
-    has_min : cgltf_bool,
-    min : [16]cgltf_float,
-    has_max : cgltf_bool,
-    max : [16]cgltf_float,
-    is_sparse : cgltf_bool,
-    sparse : cgltf_accessor_sparse,
-    extras : 	cgltf_extras,
+    buffer_view : buffer_view,
+    has_min : bool,
+    min : [16]f32,
+    has_max : bool,
+    max : [16]f32,
+    is_sparse : bool,
+    sparse : accessor_sparse,
+    extra : 	extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
 
-cgltf_attribute :: struct
+attribute :: struct
 {
     name : cstring,
-    type : cgltf_attribute_type,
-    index : cgltf_int,
-    data : ^cgltf_accessor,
+    type : attribute_type,
+    index : int,
+    data : ^accessor,
 };
 
-cgltf_image :: struct
+image :: struct
 {
     name : cstring,
     uri : cstring,
-    buffer_view : ^cgltf_buffer_view,
+    buffer_view : ^buffer_view,
     mime_type : cstring,
-    extras : cgltf_extras,
+    extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
 
-cgltf_sampler :: struct
+sampler :: struct
 {
-    mag_filter : cgltf_int,
-    min_filter: cgltf_int,
-    wrap_s : cgltf_int,
-    wrap_t : cgltf_int,
-    extras : cgltf_extras,
+    mag_filter : int,
+    min_filter: int,
+    wrap_s : int,
+    wrap_t : int,
+    extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
 
-cgltf_texture :: struct
+texture :: struct
 {
     name : cstring,
-    image : ^cgltf_image,
-    sampler : ^cgltf_sampler,
-    extras : cgltf_extras,
+    image : ^image,
+    sampler : ^sampler,
+    extra : extras,
     extensions_count : cgltf_size,
-    extensions : cgltf_extension,
+    extensions : extension,
 };
 
-cgltf_texture_transform :: struct
+texture_transform :: struct
 {
-    offset : 	[2]cgltf_float,
-    rotation : cgltf_float,
-    scale : [2]cgltf_float,
-    texcoord    : cgltf_int,
+    offset : 	[2]f32,
+    rotation : f32,
+    scale : [2]f32,
+    texcoord    : int,
 };
 
-cgltf_texture_view :: struct
+texture_view :: struct
 {
-    texture : 	^cgltf_texture,
-    texcoord : cgltf_int,
-    scale : cgltf_float, /* equivalent to strength for occlusion_texture */
-    has_transform : cgltf_bool,
-    transform : cgltf_texture_transform,
-    extras : cgltf_extras,
+    texture : 	^texture,
+    texcoord : int,
+    scale : f32, /* equivalent to strength for occlusion_texture */
+    has_transform : bool,
+    transform : texture_transform,
+    extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
 
-cgltf_pbr_metallic_roughness :: struct
+pbr_metallic_roughness :: struct
 {
-    base_color_texture : 	cgltf_texture_view,
-    metallic_roughness_texture : cgltf_texture_view,
+    base_color_texture : 	texture_view,
+    metallic_roughness_texture : texture_view,
 
-    base_color_factor : [4]cgltf_float,
-    metallic_factor   : cgltf_float ,
-    roughness_factor : cgltf_float,
+    base_color_factor : [4]f32,
+    metallic_factor   : f32 ,
+    roughness_factor : f32,
 
-    extras : cgltf_extras,
+    extra : extras,
 };
 
-cgltf_pbr_specular_glossiness :: struct
+pbr_specular_glossiness :: struct
 {
-    diffuse_texture : 	cgltf_texture_view,
-    specular_glossiness_texture : cgltf_texture_view,
+    diffuse_texture : 	texture_view,
+    specular_glossiness_texture : texture_view,
 
-    diffuse_factor : [4]cgltf_float,
-    specular_factor : [3]cgltf_float,
-    glossiness_factor : cgltf_float,
+    diffuse_factor : [4]f32,
+    specular_factor : [3]f32,
+    glossiness_factor : f32,
 };
 
-cgltf_clearcoat :: struct
+clearcoat :: struct
 {
-    clearcoat_texture : 	cgltf_texture_view,
-    clearcoat_roughness_texture : cgltf_texture_view,
-    clearcoat_normal_texture : cgltf_texture_view, 
+    clearcoat_texture : 	texture_view,
+    clearcoat_roughness_texture : texture_view,
+    clearcoat_normal_texture : texture_view, 
 
-    clearcoat_factor : cgltf_float,
-    clearcoat_roughness_factor : cgltf_float, 
+    clearcoat_factor : f32,
+    clearcoat_roughness_factor : f32, 
 };
 
-cgltf_transmission :: struct
+transmission :: struct
 {
-    transmission_texture : 	cgltf_texture_view ,
-    transmission_factor : cgltf_float,
+    transmission_texture : 	texture_view ,
+    transmission_factor : f32,
 };
 
-cgltf_ior :: struct
+ior :: struct
 {
-    ior : 	cgltf_float,
+    ior : 	f32,
 };
 
-cgltf_specular :: struct
+specular :: struct
 {
-    specular_texture : 	cgltf_texture_view ,
-    specular_color_texture : cgltf_texture_view, 
-    specular_color_factor  : [3]cgltf_float,
-    specular_factor : cgltf_float,
+    specular_texture : 	texture_view ,
+    specular_color_texture : texture_view, 
+    specular_color_factor  : [3]f32,
+    specular_factor : f32,
 };
 
-cgltf_volume :: struct
+volume :: struct
 {
-    thickness_texture : 	cgltf_texture_view ,
-    thickness_factor : cgltf_float,
-    attenuation_color :  [3]cgltf_float,
-    attenuation_distance : cgltf_float,
+    thickness_texture : 	texture_view ,
+    thickness_factor : f32,
+    attenuation_color :  [3]f32,
+    attenuation_distance : f32,
 };
 
-cgltf_sheen :: struct
+sheen :: struct
 {
-    sheen_color_texture : 	cgltf_texture_view,
-    sheen_color_factor  :  [3]cgltf_float,
-    sheen_roughness_texture : cgltf_texture_view,
-    sheen_roughness_factor : cgltf_float,
+    sheen_color_texture : 	texture_view,
+    sheen_color_factor  :  [3]f32,
+    sheen_roughness_texture : texture_view,
+    sheen_roughness_factor : f32,
 };
 
-cgltf_material :: struct
+material :: struct
 {
     name : cstring,
-    has_pbr_metallic_roughness : cgltf_bool,
-    has_pbr_specular_glossiness : cgltf_bool,
-    has_clearcoat : cgltf_bool,
-    has_transmission : cgltf_bool,
-    has_volume : cgltf_bool,
-    has_ior : cgltf_bool,
-    has_specular : cgltf_bool,
-    has_sheen : cgltf_bool,
-    pbr_metallic_roughness : 	cgltf_pbr_metallic_roughness, 
-    pbr_specular_glossiness : cgltf_pbr_specular_glossiness,
-    clearcoat : cgltf_clearcoat,
-    ior : cgltf_ior,
-    specular : 	cgltf_specular,
-    sheen : cgltf_sheen,
-    transmission : cgltf_transmission ,
-    volume : cgltf_volume,
-    normal_texture : cgltf_texture_view ,
-    occlusion_texture : cgltf_texture_view ,
-    emissive_texture : cgltf_texture_view ,
-    emissive_factor : [3]cgltf_float,
-    alpha_mode : cgltf_alpha_mode,
-    alpha_cutoff : cgltf_float,
-    double_sided : 	cgltf_bool,
-    unlit : cgltf_bool,
-    extras : cgltf_extras,
+    has_pbr_metallic_roughness : bool,
+    has_pbr_specular_glossiness : bool,
+    has_clearcoat : bool,
+    has_transmission : bool,
+    has_volume : bool,
+    has_ior : bool,
+    has_specular : bool,
+    has_sheen : bool,
+    pbr_metallic_roughness : 	pbr_metallic_roughness, 
+    pbr_specular_glossiness : pbr_specular_glossiness,
+    clearcoat : clearcoat,
+    ior : ior,
+    specular : 	specular,
+    sheen : sheen,
+    transmission : transmission ,
+    volume : volume,
+    normal_texture : texture_view ,
+    occlusion_texture : texture_view ,
+    emissive_texture : texture_view ,
+    emissive_factor : [3]f32,
+    alpha_mode : alpha_mode,
+    alpha_cutoff : f32,
+    double_sided : 	bool,
+    unlit : bool,
+    extra : extras,
     extensions_count : cgltf_size, 
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
 
-cgltf_material_mapping :: struct
+material_mapping :: struct
 {
     variant : 	cgltf_size,
-    material : ^cgltf_material,
-    extras : cgltf_extras,
+    material : ^material,
+    extra : extras,
 };
 
-cgltf_morph_target :: struct
+morph_target :: struct
 {
-    attributes : ^cgltf_attribute,
+    attributes : ^attribute,
     attributes_count : cgltf_size,
 };
 
-cgltf_draco_mesh_compression :: struct
+draco_mesh_compression :: struct
 {
-    buffer_view : 	^cgltf_buffer_view,
-    attributes  : ^cgltf_attribute,
+    buffer_view : 	^buffer_view,
+    attributes  : ^attribute,
     attributes_count : cgltf_size,
 };
 
-cgltf_primitive :: struct
+primitive :: struct
 {
-    type : 	cgltf_primitive_type ,
-    indices : ^cgltf_accessor ,
-    material : ^cgltf_material ,
-    attributes : ^cgltf_attribute,
+    type : 	primitive_type ,
+    indices : ^accessor ,
+    material : ^material ,
+    attributes : ^attribute,
     attributes_count : cgltf_size ,
-    targets : ^cgltf_morph_target ,
+    targets : ^morph_target ,
     targets_count : cgltf_size ,
-    extras : cgltf_extras ,
-    has_draco_mesh_compression : cgltf_bool ,
-    draco_mesh_compression : cgltf_draco_mesh_compression,
-    mappings  : ^cgltf_material_mapping,
+    extra : extras ,
+    has_draco_mesh_compression : bool ,
+    draco_mesh_compression : draco_mesh_compression,
+    mappings  : ^material_mapping,
     mappings_count : cgltf_size ,
     extensions_count : cgltf_size ,
-    extensions : 	^cgltf_extension,
+    extensions : 	^extension,
 };
 
-cgltf_mesh :: struct
+mesh :: struct
 {
     name : cstring,
-    primitives : ^cgltf_primitive,
+    primitives : ^primitive,
     primitives_count : cgltf_size ,
-    weights : ^cgltf_float,
+    weights : ^f32,
     weights_count : cgltf_size ,
     target_names : ^cstring,//char** ,
     target_names_count : cgltf_size ,
-    extras : cgltf_extras ,
+    extra : extras ,
     extensions_count : cgltf_size ,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
 
-//  cgltf_node cgltf_node;
+//  node node;
 
-cgltf_skin :: struct
+skin :: struct
 {
     name : cstring,
-    joints : ^^cgltf_node,
+    joints : ^^node,
     joints_count : cgltf_size,
-    skeleton : ^cgltf_node ,
-    inverse_bind_matrices : ^cgltf_accessor,
-    extras : cgltf_extras ,
+    skeleton : ^node ,
+    inverse_bind_matrices : ^accessor,
+    extra : extras ,
     extensions_count : cgltf_size ,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
 
-cgltf_camera_perspective :: struct
+camera_perspective :: struct
 {
-    aspect_ratio : 	cgltf_float,
-    yfov : cgltf_float,
-    zfar : cgltf_float, 
-    znear : cgltf_float, 
-    extras : cgltf_extras,
+    aspect_ratio : 	f32,
+    yfov : f32,
+    zfar : f32, 
+    znear : f32, 
+    extra : extras,
 };
 
-cgltf_camera_orthographic :: struct
+camera_orthographic :: struct
 {
-    xmag : 	cgltf_float,
-    ymag : cgltf_float,
-    zfar : cgltf_float,
-    znear : cgltf_float,
-    extras : cgltf_extras,
+    xmag : 	f32,
+    ymag : f32,
+    zfar : f32,
+    znear : f32,
+    extra : extras,
 };
 
-cgltf_camera_data :: struct #raw_union
+camera_data :: struct #raw_union
 {
-    perspective : cgltf_camera_perspective ,
-    orthographic : cgltf_camera_orthographic,
+    perspective : camera_perspective ,
+    orthographic : camera_orthographic,
 }
 
-cgltf_camera :: struct
+camera :: struct
 {
     name : cstring,
-    type : cgltf_camera_type,
-    data : cgltf_camera_data,
-    extras : cgltf_extras,
+    type : camera_type,
+    data : camera_data,
+    extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 };
  
-cgltf_light :: struct
+light :: struct
 {
     name : cstring,
-    color : [3]cgltf_float,
-    intensity : cgltf_float,
-    type : cgltf_light_type ,
-    range : cgltf_float ,
-    spot_inner_cone_angle  : cgltf_float ,
-    spot_outer_cone_angle : cgltf_float ,
+    color : [3]f32,
+    intensity : f32,
+    type : light_type ,
+    range : f32 ,
+    spot_inner_cone_angle  : f32 ,
+    spot_outer_cone_angle : f32 ,
 };
 
-cgltf_node :: struct
+node :: struct
 {
     name : cstring,
-    parent : ^cgltf_node,
-    children : ^^cgltf_node,
+    parent : ^node,
+    children : ^^node,
     children_count : ^cgltf_size ,
-    skin : ^cgltf_skin ,
-    mesh : ^cgltf_mesh ,
-    camera : ^cgltf_camera ,
-    light : ^cgltf_light ,
-    weights : ^cgltf_float ,
+    skin : ^skin ,
+    mesh : ^mesh ,
+    camera : ^camera ,
+    light : ^light ,
+    weights : ^f32 ,
     weights_count : cgltf_size ,
-    has_translation : cgltf_bool ,
-    has_rotation : cgltf_bool ,
-    has_scale : cgltf_bool ,
-    has_matrix : cgltf_bool ,
-    translation :  [3]cgltf_float,
-    rotation : [4]cgltf_float,
-    scale :  [3]cgltf_float,
-    matrix : [16]cgltf_float ,
-    extras : cgltf_extras ,
+    has_translation : bool ,
+    has_rotation : bool ,
+    has_scale : bool ,
+    has_matrix : bool ,
+    translation :  [3]f32,
+    rotation : [4]f32,
+    scale :  [3]f32,
+    matrix : [16]f32 ,
+    extra : extras ,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 }
 
-cgltf_scene :: struct
+scene :: struct
 {
     name : cstring,
-    nodes : ^^cgltf_node,
+    nodes : ^^node,
     nodes_count : cgltf_size,
-    extras : 	cgltf_extras,
+    extra : 	extras,
     extensions_count : cgltf_size ,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 }
 
-cgltf_animation_sampler :: struct
+animation_sampler :: struct
 {
-    input : 	^cgltf_accessor,
-    output : ^cgltf_accessor,
-    interpolation : cgltf_interpolation_type,
-    extras : cgltf_extras ,
+    input : 	^accessor,
+    output : ^accessor,
+    interpolation : interpolation_type,
+    extra : extras ,
     extensions_count : cgltf_size ,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 }
 
-cgltf_animation_channel :: struct
+animation_channel :: struct
 {
-    sampler : 	^cgltf_animation_sampler,
-    target_node : ^cgltf_node,
-    target_path : cgltf_animation_path_type,
-    extras : cgltf_extras,
+    sampler : 	^animation_sampler,
+    target_node : ^node,
+    target_path : animation_path_type,
+    extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 }
 
-cgltf_animation :: struct
+animation :: struct
 {
     name : 	cstring,
-    samplers : ^cgltf_animation_sampler,
+    samplers : ^animation_sampler,
     samplers_count : cgltf_size,
-    channels : ^cgltf_animation_channel,
+    channels : ^animation_channel,
     channels_count : cgltf_size ,
-    extras : cgltf_extras ,
+    extra : extras ,
     extensions_count : cgltf_size ,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 }
 
-cgltf_material_variant :: struct
+material_variant :: struct
 {
     name : cstring,
-    extras : 	cgltf_extras,
+    extra : 	extras,
 }
 
-cgltf_asset :: struct
+asset :: struct
 {
     copyright : cstring,
     generator : cstring,
     version : cstring,
     min_version : cstring,
-    extras : cgltf_extras,
+    extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^cgltf_extension,
+    extensions : ^extension,
 }
 
-cgltf_data :: struct
+data :: struct
 {
-    file_type : 	cgltf_file_type,
+    file_type : 	file_type,
     file_data : rawptr,
 
-    asset : cgltf_asset,
+    asset : asset,
 
-    meshes : ^cgltf_mesh,
+    meshes : ^mesh,
     meshes_count : cgltf_size,
 
-    materials : ^cgltf_material,
+    materials : ^material,
     materials_count : cgltf_size,
 
-    accessors : ^cgltf_accessor,
+    accessors : ^accessor,
     accessors_count : cgltf_size,
 
-    buffer_views : ^cgltf_buffer_view,
+    buffer_views : ^buffer_view,
     buffer_views_count : cgltf_size,
 
-    buffers : 	^cgltf_buffer,
+    buffers : 	^buffer,
     buffers_count :  cgltf_size,
 
-    images : ^cgltf_image,
+    images : ^image,
     images_count : cgltf_size,
 
-    textures : ^cgltf_texture,
+    textures : ^texture,
     textures_count : cgltf_size,
 
-    samplers : ^cgltf_sampler,
+    samplers : ^sampler,
     samplers_count : cgltf_size,
 
-    skins : ^cgltf_skin,
+    skins : ^skin,
     skins_count : cgltf_size,
 
-    cameras : ^cgltf_camera,
+    cameras : ^camera,
     cameras_count :cgltf_size,
 
-    lights : ^cgltf_light,
+    lights : ^light,
     lights_count : cgltf_size ,
 
-    nodes : ^cgltf_node,
+    nodes : ^node,
     nodes_count : cgltf_size,
 
-    scenes : 	^cgltf_scene,
+    scenes : 	^scene,
     scenes_count : cgltf_size,
 
-    scene : ^cgltf_scene,
+    scene : ^scene,
 
-    animations : ^cgltf_animation,
+    animations : ^animation,
     animations_count : cgltf_size,
 
-    variants : ^cgltf_material_variant,
+    variants : ^material_variant,
     variants_count : cgltf_size,
 
-    extras : cgltf_extras,
+    extra : extras,
 
     data_extensions_count : cgltf_size ,
-    data_extensions : ^cgltf_extension,
+    data_extensions : ^extension,
 
     extensions_used : 	^^cstring,//char**,
     extensions_used_count : cgltf_size,
@@ -672,30 +672,28 @@ cgltf_data :: struct
     bin : rawptr,
     bin_size : cgltf_size,
 
-    memory : cgltf_memory_options,
-    file : cgltf_file_options,
+    memory : memory_options,
+    file : file_options,
 };
 
-
-
+@(link_prefix = "cgltf_")
 @(default_calling_convention="c")
 foreign cgltf
 {
+    parse :: proc "c"(options : ^options,in_data : cstring,size : cgltf_size,out_data : ^^data) -> cgltf_result ---;
+    parse_file :: proc "c"( options : ^options,path : cstring,out_data : ^^data) ->cgltf_result ---;
+    load_buffers :: proc "c"(options : ^options,in_data : ^data,gltf_path : cstring) ->cgltf_result ---;
+    load_buffer_base64 :: proc "c"(options :  ^options, size : cgltf_size, base64 : cstring, out_data : ^rawptr ) ->cgltf_result ---;
+    decode_uri :: proc "c"(uri : cstring) ---;
+    validate :: proc "c"( data : ^data) ->cgltf_result ---;
+    free :: proc "c"(data : ^data) ---;
+    node_transform_local :: proc "c"(node : ^node,out_matrix :  ^f32) ---;
+    node_transform_world :: proc "c"(node : ^node,out_matrix :  ^f32) ---;
+    accessor_read_float :: proc "c"(accessor : ^accessor,index  :  cgltf_size, out : ^f32, element_size : cgltf_size) -> bool  ---;
+    accessor_read_uint :: proc "c"(accessor : ^accessor, index : cgltf_size , out : ^uint,  element_size : cgltf_size)-> bool  ---;
 
-    cgltf_parse :: proc "c"(options : ^cgltf_options,data : cstring,size : cgltf_size,out_data : ^^cgltf_data) -> cgltf_result ---;
-    cgltf_parse_file :: proc "c"( options : ^cgltf_options,path : cstring,out_data : ^^cgltf_data) ->cgltf_result ---;
-    cgltf_load_buffers :: proc "c"(options : ^cgltf_options,data : ^cgltf_data,gltf_path : cstring) ->cgltf_result ---;
-    cgltf_load_buffer_base64 :: proc "c"(options :  ^cgltf_options, size : cgltf_size, base64 : cstring, out_data : ^rawptr ) ->cgltf_result ---;
-    cgltf_decode_uri :: proc "c"(uri : cstring) ---;
-    cgltf_validate :: proc "c"( data : ^cgltf_data) ->cgltf_result ---;
-    cgltf_free :: proc "c"(data : ^cgltf_data) ---;
-    cgltf_node_transform_local :: proc "c"(node : ^cgltf_node,out_matrix :  ^cgltf_float) ---;
-    cgltf_node_transform_world :: proc "c"(node : ^cgltf_node,out_matrix :  ^cgltf_float) ---;
-    cgltf_accessor_read_float :: proc "c"(accessor : ^cgltf_accessor,index  :  cgltf_size, out : ^cgltf_float, element_size : cgltf_size) -> cgltf_bool  ---;
-    cgltf_accessor_read_uint :: proc "c"(accessor : ^cgltf_accessor, index : cgltf_size , out : ^cgltf_uint,  element_size : cgltf_size)-> cgltf_bool  ---;
-
-    cgltf_accessor_read_index :: proc "c"(accessor  : ^cgltf_accessor,  index : cgltf_size)-> cgltf_size  ---;
-    cgltf_num_components :: proc "c"(type : cgltf_type) -> cgltf_size ---;    
-    cgltf_accessor_unpack_floats :: proc "c"(accessor : ^cgltf_accessor,out :  ^cgltf_float,float_count :  cgltf_size) ->cgltf_size ---;
-    cgltf_copy_extras_json :: proc "c"(data : ^cgltf_data, extras : ^cgltf_extras,dest : cstring,dest_size :  ^cgltf_size)  -> cgltf_result ---;
+    accessor_read_index :: proc "c"(accessor  : ^accessor,  index : cgltf_size)-> cgltf_size  ---;
+    num_components :: proc "c"(type : type) -> cgltf_size ---;    
+    accessor_unpack_floats :: proc "c"(accessor : ^accessor,out :  ^f32,float_count :  cgltf_size) ->cgltf_size ---;
+    copy_extras_json :: proc "c"(data : ^data, extras : ^extras,dest : cstring,dest_size :  ^cgltf_size)  -> cgltf_result ---;
 }
