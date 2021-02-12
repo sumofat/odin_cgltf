@@ -2,7 +2,7 @@ package cgltf
 
 import "core:c"
 
-foreign import cgltf "../../../library/cgltf/build/cgltf.lib"
+foreign import cgltf "your project directory here!/cgltf.lib"
 
 cgltf_size :: c.size_t;
 cgltf_bool :: c.int;
