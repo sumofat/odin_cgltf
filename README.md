@@ -8,5 +8,5 @@ If you find any issues please let me know right away via an issue or PR.
 # Instructions
 
 1. Download CGLTF and build it for your platform.
-2. Replace the lib directory in cgltf.odin with the location to your direction relatively.
+2. Replace the lib directory in cgltf.odin with the location to your directory relatively.
 
