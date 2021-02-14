@@ -459,8 +459,6 @@ mesh :: struct
     extensions : ^extension,
 };
 
-//  node node;
-
 skin :: struct
 {
     name : cstring,
@@ -523,12 +521,12 @@ node :: struct
     name : cstring,
     parent : ^node,
     children : ^^node,
-    children_count : ^cgltf_size ,
-    skin : ^skin ,
-    mesh : ^mesh ,
-    camera : ^camera ,
-    light : ^light ,
-    weights : ^f32 ,
+    children_count : cgltf_size ,
+    skin : ^skin,
+    mesh : ^mesh,
+    camera : ^camera,
+    light : ^light,
+    weights : ^f32,
     weights_count : cgltf_size ,
     has_translation : bool ,
     has_rotation : bool ,
