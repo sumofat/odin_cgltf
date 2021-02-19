@@ -7,18 +7,18 @@ foreign import cgltf "../../../library/cgltf/build/cgltf.lib"
 
 cgltf_size :: c.size_t;
 cgltf_bool :: c.int;
-cgltf_float :: f32;
+cgltf_float :: c.float;
 cgltf_int :: c.int;
 cgltf_uint :: c.uint;//unsigned int 
 
-file_type :: enum 
+file_type :: enum u32 
 {
 	file_type_invalid,
 	file_type_gltf,
 	file_type_glb,
 };
 
-result :: enum 
+result :: enum u32 
 {
 	result_success,
 	result_data_too_short,
@@ -54,14 +54,14 @@ options :: struct
     file : file_options ,
 };
 
-buffer_view_type :: enum
+buffer_view_type :: enum u32
 {
 	buffer_view_type_invalid,
 	buffer_view_type_indices,
 	buffer_view_type_vertices,
 };
 
-attribute_type :: enum
+attribute_type :: enum u32
 {
 	attribute_type_invalid,
 	attribute_type_position,
@@ -73,7 +73,7 @@ attribute_type :: enum
 	attribute_type_weights,
 };
 
-component_type :: enum
+component_type :: enum u32
 {
     component_type_invalid,
     component_type_r_8, /* BYTE */
@@ -84,7 +84,7 @@ component_type :: enum
     component_type_r_32f, /* FLOAT */
 };
 
-type :: enum
+type :: enum u32
 {
     type_invalid,
     type_scalar,
@@ -96,7 +96,7 @@ type :: enum
     type_mat4,
 };
 
-primitive_type  :: enum
+primitive_type  :: enum u32
 {
     primitive_type_points,
     primitive_type_lines,
@@ -107,14 +107,14 @@ primitive_type  :: enum
     primitive_type_triangle_fan,
 };
 
-alpha_mode :: enum
+alpha_mode :: enum u32
 {
 	alpha_mode_opaque,
 	alpha_mode_mask,
 	alpha_mode_blend,
 };
 
-animation_path_type :: enum
+animation_path_type :: enum u32
 {
 	animation_path_type_invalid,
 	animation_path_type_translation,
@@ -123,21 +123,21 @@ animation_path_type :: enum
 	animation_path_type_weights,
 };
 
-interpolation_type :: enum
+interpolation_type :: enum u32
 {
 	interpolation_type_linear,
 	interpolation_type_step,
 	interpolation_type_cubic_spline,
 };
 
-camera_type :: enum
+camera_type :: enum u32
 {
 	camera_type_invalid,
 	camera_type_perspective,
 	camera_type_orthographic,
 };
 
-light_type :: enum
+light_type :: enum u32
 {
     light_type_invalid,
     light_type_directional,
@@ -167,7 +167,7 @@ buffer :: struct
     extensions : ^extension,
 };
 
-meshopt_compression_mode :: enum
+meshopt_compression_mode :: enum u32
 {
 	meshopt_compression_mode_invalid,
 	meshopt_compression_mode_attributes,
@@ -175,7 +175,7 @@ meshopt_compression_mode :: enum
 	meshopt_compression_mode_indices,
 };
 
-meshopt_compression_filter :: enum
+meshopt_compression_filter :: enum u32
 {
 	meshopt_compression_filter_none,
 	meshopt_compression_filter_octahedral,
@@ -202,7 +202,7 @@ buffer_view :: struct
     stride : cgltf_size, /* 0 == automatically determined by accessor */
     type : buffer_view_type,
     data : rawptr, /* overrides buffer->data if present, filled by extensions */
-    has_meshopt_compression : bool,
+    has_meshopt_compression : cgltf_bool,
     meshopt_compression : meshopt_compression,
     extra : extras,
     extensions_count : cgltf_size,
@@ -231,17 +231,17 @@ accessor_sparse :: struct
 accessor :: struct
 {
     component_type : component_type,
-    normalized : bool,
+    normalized : cgltf_bool,
     type : type,
     offset : cgltf_size,
     count : cgltf_size,
     stride : cgltf_size,
-    buffer_view : buffer_view,
-    has_min : bool,
-    min : [16]f32,
-    has_max : bool,
-    max : [16]f32,
-    is_sparse : bool,
+    buffer_view : ^buffer_view,
+    has_min : cgltf_bool,
+    min : [16]cgltf_float,
+    has_max : cgltf_bool,
+    max : [16]cgltf_float,
+    is_sparse : cgltf_bool,
     sparse : accessor_sparse,
     extra : 	extras,
     extensions_count : cgltf_size,
@@ -252,7 +252,7 @@ attribute :: struct
 {
     name : cstring,
     type : attribute_type,
-    index : int,
+    index : cgltf_int,
     data : ^accessor,
 };
 
@@ -290,9 +290,9 @@ texture :: struct
 
 texture_transform :: struct
 {
-    offset : 	[2]f32,
-    rotation : f32,
-    scale : [2]f32,
+    offset : 	[2]c.float,
+    rotation : c.float,
+    scale : [2]c.float,
     texcoord    : int,
 };
 
@@ -300,8 +300,8 @@ texture_view :: struct
 {
     texture : 	^texture,
     texcoord : int,
-    scale : f32, /* equivalent to strength for occlusion_texture */
-    has_transform : bool,
+    scale : c.float, /* equivalent to strength for occlusion_texture */
+    has_transform : c.int,
     transform : texture_transform,
     extra : extras,
     extensions_count : cgltf_size,
@@ -313,9 +313,9 @@ pbr_metallic_roughness :: struct
     base_color_texture : 	texture_view,
     metallic_roughness_texture : texture_view,
 
-    base_color_factor : [4]f32,
-    metallic_factor   : f32 ,
-    roughness_factor : f32,
+    base_color_factor : [4]c.float,
+    metallic_factor   : c.float ,
+    roughness_factor : c.float,
 
     extra : extras,
 };
@@ -325,9 +325,9 @@ pbr_specular_glossiness :: struct
     diffuse_texture : 	texture_view,
     specular_glossiness_texture : texture_view,
 
-    diffuse_factor : [4]f32,
-    specular_factor : [3]f32,
-    glossiness_factor : f32,
+    diffuse_factor : [4]c.float,
+    specular_factor : [3]c.float,
+    glossiness_factor : c.float,
 };
 
 clearcoat :: struct
@@ -336,56 +336,56 @@ clearcoat :: struct
     clearcoat_roughness_texture : texture_view,
     clearcoat_normal_texture : texture_view, 
 
-    clearcoat_factor : f32,
-    clearcoat_roughness_factor : f32, 
+    clearcoat_factor : c.float,
+    clearcoat_roughness_factor : c.float, 
 };
 
 transmission :: struct
 {
     transmission_texture : 	texture_view ,
-    transmission_factor : f32,
+    transmission_factor : c.float,
 };
 
 ior :: struct
 {
-    ior : 	f32,
+    ior : 	c.float,
 };
 
 specular :: struct
 {
     specular_texture : 	texture_view ,
     specular_color_texture : texture_view, 
-    specular_color_factor  : [3]f32,
-    specular_factor : f32,
+    specular_color_factor  : [3]c.float,
+    specular_factor : c.float,
 };
 
 volume :: struct
 {
     thickness_texture : 	texture_view ,
-    thickness_factor : f32,
-    attenuation_color :  [3]f32,
-    attenuation_distance : f32,
+    thickness_factor : c.float,
+    attenuation_color :  [3]c.float,
+    attenuation_distance : c.float,
 };
 
 sheen :: struct
 {
     sheen_color_texture : 	texture_view,
-    sheen_color_factor  :  [3]f32,
+    sheen_color_factor  :  [3]c.float,
     sheen_roughness_texture : texture_view,
-    sheen_roughness_factor : f32,
+    sheen_roughness_factor : c.float,
 };
 
 material :: struct
 {
     name : cstring,
-    has_pbr_metallic_roughness : bool,
-    has_pbr_specular_glossiness : bool,
-    has_clearcoat : bool,
-    has_transmission : bool,
-    has_volume : bool,
-    has_ior : bool,
-    has_specular : bool,
-    has_sheen : bool,
+    has_pbr_metallic_roughness : c.int,
+    has_pbr_specular_glossiness : c.int,
+    has_clearcoat : c.int,
+    has_transmission : c.int,
+    has_volume : c.int,
+    has_ior : c.int,
+    has_specular : c.int,
+    has_sheen : c.int,
     pbr_metallic_roughness : 	pbr_metallic_roughness, 
     pbr_specular_glossiness : pbr_specular_glossiness,
     clearcoat : clearcoat,
@@ -397,11 +397,11 @@ material :: struct
     normal_texture : texture_view ,
     occlusion_texture : texture_view ,
     emissive_texture : texture_view ,
-    emissive_factor : [3]f32,
+    emissive_factor : [3]c.float,
     alpha_mode : alpha_mode,
-    alpha_cutoff : f32,
-    double_sided : 	bool,
-    unlit : bool,
+    alpha_cutoff : c.float,
+    double_sided : 	c.int,
+    unlit : c.int,
     extra : extras,
     extensions_count : cgltf_size, 
     extensions : ^extension,
@@ -437,7 +437,7 @@ primitive :: struct
     targets : ^morph_target ,
     targets_count : cgltf_size ,
     extra : extras ,
-    has_draco_mesh_compression : bool ,
+    has_draco_mesh_compression : c.int ,
     draco_mesh_compression : draco_mesh_compression,
     mappings  : ^material_mapping,
     mappings_count : cgltf_size ,
@@ -450,7 +450,7 @@ mesh :: struct
     name : cstring,
     primitives : ^primitive,
     primitives_count : cgltf_size ,
-    weights : ^f32,
+    weights : ^c.float,
     weights_count : cgltf_size ,
     target_names : ^cstring,//char** ,
     target_names_count : cgltf_size ,
@@ -473,19 +473,19 @@ skin :: struct
 
 camera_perspective :: struct
 {
-    aspect_ratio : 	f32,
-    yfov : f32,
-    zfar : f32, 
-    znear : f32, 
+    aspect_ratio : 	c.float,
+    yfov : c.float,
+    zfar : c.float, 
+    znear : c.float, 
     extra : extras,
 };
 
 camera_orthographic :: struct
 {
-    xmag : 	f32,
-    ymag : f32,
-    zfar : f32,
-    znear : f32,
+    xmag : 	c.float,
+    ymag : c.float,
+    zfar : c.float,
+    znear : c.float,
     extra : extras,
 };
 
@@ -508,12 +508,12 @@ camera :: struct
 light :: struct
 {
     name : cstring,
-    color : [3]f32,
-    intensity : f32,
+    color : [3]c.float,
+    intensity : c.float,
     type : light_type ,
-    range : f32 ,
-    spot_inner_cone_angle  : f32 ,
-    spot_outer_cone_angle : f32 ,
+    range : c.float ,
+    spot_inner_cone_angle  : c.float ,
+    spot_outer_cone_angle : c.float ,
 };
 
 node :: struct
@@ -526,16 +526,16 @@ node :: struct
     mesh : ^mesh,
     camera : ^camera,
     light : ^light,
-    weights : ^f32,
+    weights : ^c.float,
     weights_count : cgltf_size ,
-    has_translation : bool ,
-    has_rotation : bool ,
-    has_scale : bool ,
-    has_matrix : bool ,
-    translation :  [3]f32,
-    rotation : [4]f32,
-    scale :  [3]f32,
-    matrix : [16]f32 ,
+    has_translation : c.int ,
+    has_rotation : c.int ,
+    has_scale : c.int ,
+    has_matrix : c.int ,
+    translation :  [3]c.float,
+    rotation : [4]c.float,
+    scale :  [3]c.float,
+    matrix : [16]c.float ,
     extra : extras ,
     extensions_count : cgltf_size,
     extensions : ^extension,
@@ -686,13 +686,13 @@ foreign cgltf
     decode_uri :: proc "c"(uri : cstring) ---;
     validate :: proc "c"( data : ^data) ->result ---;
     free :: proc "c"(data : ^data) ---;
-    node_transform_local :: proc "c"(node : ^node,out_matrix :  ^f32) ---;
-    node_transform_world :: proc "c"(node : ^node,out_matrix :  ^f32) ---;
-    accessor_read_float :: proc "c"(accessor : ^accessor,index  :  cgltf_size, out : ^f32, element_size : cgltf_size) -> bool  ---;
-    accessor_read_uint :: proc "c"(accessor : ^accessor, index : cgltf_size , out : ^uint,  element_size : cgltf_size)-> bool  ---;
+    node_transform_local :: proc "c"(node : ^node,out_matrix :  ^c.float) ---;
+    node_transform_world :: proc "c"(node : ^node,out_matrix :  ^c.float) ---;
+    accessor_read_float :: proc "c"(accessor : ^accessor,index  :  cgltf_size, out : ^c.float, element_size : cgltf_size) -> c.int  ---;
+    accessor_read_uint :: proc "c"(accessor : ^accessor, index : cgltf_size , out : ^uint,  element_size : cgltf_size)-> c.int  ---;
 
     accessor_read_index :: proc "c"(accessor  : ^accessor,  index : cgltf_size)-> cgltf_size  ---;
     num_components :: proc "c"(type : type) -> cgltf_size ---;    
-    accessor_unpack_floats :: proc "c"(accessor : ^accessor,out :  ^f32,float_count :  cgltf_size) ->cgltf_size ---;
+    accessor_unpack_floats :: proc "c"(accessor : ^accessor,out :  ^c.float,float_count :  cgltf_size) ->cgltf_size ---;
     copy_extras_json :: proc "c"(data : ^data, extras : ^extras,dest : cstring,dest_size :  ^cgltf_size)  -> result ---;
 }
