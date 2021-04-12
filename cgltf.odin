@@ -1,3 +1,5 @@
+//Compatible with cgltf version 1.9
+
 package cgltf
 
 import "core:c"
