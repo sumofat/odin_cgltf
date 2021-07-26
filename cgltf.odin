@@ -161,6 +161,7 @@ extension :: struct
 
 buffer :: struct
 {
+    name : cstring,
     size : 	cgltf_size, 
     uri : cstring,
     data : rawptr, /* loaded by load_buffers */
@@ -198,6 +199,7 @@ meshopt_compression:: struct
 
 buffer_view :: struct
 {
+    name : cstring,    
     buffer : ^buffer,
     offset : cgltf_size,
     size : cgltf_size,
@@ -232,6 +234,7 @@ accessor_sparse :: struct
 
 accessor :: struct
 {
+    name : cstring,    
     component_type : component_type,
     normalized : cgltf_bool,
     type : type,
@@ -271,6 +274,7 @@ image :: struct
 
 sampler :: struct
 {
+    name : cstring,
     mag_filter : int,
     min_filter: int,
     wrap_s : int,
