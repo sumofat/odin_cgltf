@@ -210,7 +210,7 @@ buffer_view :: struct
     meshopt_compression : meshopt_compression,
     extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
 };
 
 accessor_sparse :: struct
@@ -225,11 +225,11 @@ accessor_sparse :: struct
     indices_extras : extras,
     values_extras : extras,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
     indices_extensions_count : cgltf_size,
-    indices_extensions : ^extension,
+    indices_extensions : [^]extension,
     values_extensions_count : cgltf_size,
-    values_extensions : ^extension,
+    values_extensions : [^]extension,
 };
 
 accessor :: struct
@@ -250,7 +250,7 @@ accessor :: struct
     sparse : accessor_sparse,
     extra : 	extras,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
 };
 
 attribute :: struct
@@ -269,7 +269,7 @@ image :: struct
     mime_type : cstring,
     extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
 };
 
 sampler :: struct
@@ -281,7 +281,7 @@ sampler :: struct
     wrap_t : int,
     extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
 };
 
 texture :: struct
@@ -291,7 +291,7 @@ texture :: struct
     sampler : ^sampler,
     extra : extras,
     extensions_count : cgltf_size,
-    extensions : extension,
+    extensions : [^]extension,
 };
 
 texture_transform :: struct
@@ -311,7 +311,7 @@ texture_view :: struct
     transform : texture_transform,
     extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
 };
 
 pbr_metallic_roughness :: struct
@@ -410,7 +410,7 @@ material :: struct
     unlit : c.int,
     extra : extras,
     extensions_count : cgltf_size, 
-    extensions : ^extension,
+    extensions : [^]extension,
 };
 
 material_mapping :: struct
@@ -422,14 +422,14 @@ material_mapping :: struct
 
 morph_target :: struct
 {
-    attributes : ^attribute,
+    attributes : [^]attribute,
     attributes_count : cgltf_size,
 };
 
 draco_mesh_compression :: struct
 {
     buffer_view : 	^buffer_view,
-    attributes  : ^attribute,
+    attributes  : [^]attribute,
     attributes_count : cgltf_size,
 };
 
@@ -438,43 +438,43 @@ primitive :: struct
     type : 	primitive_type ,
     indices : ^accessor ,
     material : ^material ,
-    attributes : ^attribute,
+    attributes : [^]attribute,
     attributes_count : cgltf_size ,
-    targets : ^morph_target ,
+    targets : [^]morph_target ,
     targets_count : cgltf_size ,
     extra : extras ,
     has_draco_mesh_compression : c.int ,
     draco_mesh_compression : draco_mesh_compression,
-    mappings  : ^material_mapping,
+    mappings  : [^]material_mapping,
     mappings_count : cgltf_size ,
     extensions_count : cgltf_size ,
-    extensions : 	^extension,
+    extensions : 	[^]extension,
 };
 
 mesh :: struct
 {
     name : cstring,
-    primitives : ^primitive,
+    primitives : [^]primitive,
     primitives_count : cgltf_size ,
-    weights : ^c.float,
+    weights : [^]c.float,
     weights_count : cgltf_size ,
-    target_names : ^cstring,//char** ,
+    target_names : [^]cstring,
     target_names_count : cgltf_size ,
     extra : extras ,
     extensions_count : cgltf_size ,
-    extensions : ^extension,
+    extensions : [^]extension,
 };
 
 skin :: struct
 {
     name : cstring,
-    joints : ^^node,
+    joints : [^]^node,
     joints_count : cgltf_size,
     skeleton : ^node ,
     inverse_bind_matrices : ^accessor,
     extra : extras ,
     extensions_count : cgltf_size ,
-    extensions : ^extension,
+    extensions : [^]extension,
 };
 
 camera_perspective :: struct
@@ -508,7 +508,7 @@ camera :: struct
     data : camera_data,
     extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
 };
  
 light :: struct
@@ -526,13 +526,13 @@ node :: struct
 {
     name : cstring,
     parent : ^node,
-    children : ^^node,
+    children : [^]^node,
     children_count : cgltf_size ,
     skin : ^skin,
     mesh : ^mesh,
     camera : ^camera,
     light : ^light,
-    weights : ^c.float,
+    weights : [^]c.float,
     weights_count : cgltf_size ,
     has_translation : c.int ,
     has_rotation : c.int ,
@@ -544,17 +544,17 @@ node :: struct
     matrix : [16]c.float ,
     extra : extras ,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
 }
 
 scene :: struct
 {
     name : cstring,
-    nodes : ^^node,
+    nodes : [^]^node,
     nodes_count : cgltf_size,
     extra : 	extras,
     extensions_count : cgltf_size ,
-    extensions : ^extension,
+    extensions : [^]extension,
 }
 
 animation_sampler :: struct
@@ -564,7 +564,7 @@ animation_sampler :: struct
     interpolation : interpolation_type,
     extra : extras ,
     extensions_count : cgltf_size ,
-    extensions : ^extension,
+    extensions : [^]extension,
 }
 
 animation_channel :: struct
@@ -574,19 +574,19 @@ animation_channel :: struct
     target_path : animation_path_type,
     extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
 }
 
 animation :: struct
 {
     name : 	cstring,
-    samplers : ^animation_sampler,
+    samplers : [^]animation_sampler,
     samplers_count : cgltf_size,
-    channels : ^animation_channel,
+    channels : [^]animation_channel,
     channels_count : cgltf_size ,
     extra : extras ,
     extensions_count : cgltf_size ,
-    extensions : ^extension,
+    extensions : [^]extension,
 }
 
 material_variant :: struct
@@ -603,7 +603,7 @@ asset :: struct
     min_version : cstring,
     extra : extras,
     extensions_count : cgltf_size,
-    extensions : ^extension,
+    extensions : [^]extension,
 }
 
 data :: struct
@@ -613,62 +613,62 @@ data :: struct
 
     asset : asset,
 
-    meshes : ^mesh,
+    meshes : [^]mesh,
     meshes_count : cgltf_size,
 
-    materials : ^material,
+    materials : [^]material,
     materials_count : cgltf_size,
 
-    accessors : ^accessor,
+    accessors : [^]accessor,
     accessors_count : cgltf_size,
 
-    buffer_views : ^buffer_view,
+    buffer_views : [^]buffer_view,
     buffer_views_count : cgltf_size,
 
-    buffers : 	^buffer,
+    buffers : 	[^]buffer,
     buffers_count :  cgltf_size,
 
-    images : ^image,
+    images : [^]image,
     images_count : cgltf_size,
 
-    textures : ^texture,
+    textures : [^]texture,
     textures_count : cgltf_size,
 
-    samplers : ^sampler,
+    samplers : [^]sampler,
     samplers_count : cgltf_size,
 
-    skins : ^skin,
+    skins : [^]skin,
     skins_count : cgltf_size,
 
-    cameras : ^camera,
+    cameras : [^]camera,
     cameras_count :cgltf_size,
 
-    lights : ^light,
+    lights : [^]light,
     lights_count : cgltf_size ,
 
-    nodes : ^node,
+    nodes : [^]node,
     nodes_count : cgltf_size,
 
-    scenes : 	^scene,
+    scenes : 	[^]scene,
     scenes_count : cgltf_size,
 
     scene : ^scene,
 
-    animations : ^animation,
+    animations : [^]animation,
     animations_count : cgltf_size,
 
-    variants : ^material_variant,
+    variants : [^]material_variant,
     variants_count : cgltf_size,
 
     extra : extras,
 
     data_extensions_count : cgltf_size ,
-    data_extensions : ^extension,
+    data_extensions : [^]extension,
 
-    extensions_used : 	^^cstring,//char**,
+    extensions_used : 	[^]^cstring,
     extensions_used_count : cgltf_size,
 
-    extensions_required : ^^cstring,
+    extensions_required : [^]^cstring,
     extensions_required_count : cgltf_size,
 
     json : cstring,
