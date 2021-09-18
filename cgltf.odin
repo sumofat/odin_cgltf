@@ -4,8 +4,10 @@ package cgltf
 
 import "core:c"
 
-//foreign import cgltf "your project directory here!/cgltf.lib"
-foreign import cgltf "../../../library/cgltf/build/cgltf.lib"
+when ODIN_OS == "windows" do foreign import cgltf "cgltf.lib"
+when ODIN_OS == "linux"   do foreign import cgltf "system:cgltf"
+when ODIN_OS == "darwin"  do foreign import cgltf "system:cgltf"
+when ODIN_OS == "freebsd" do foreign import cgltf "system:cgltf"
 
 cgltf_size :: c.size_t;
 cgltf_bool :: c.int;
