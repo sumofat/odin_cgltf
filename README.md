@@ -10,7 +10,7 @@ The cgltf prefix removed from struct and procedure names.
 The extras variable naming was renamed to singuar version where circular naming references and conflicts ocuured.
 The data variable naming also renamed in some places for the same reason.
 
-#Instructions
+# Instructions
 
 1. Download CGLTF and build it for your platform.
 2. Replace the lib directory in cgltf.odin with the location to your directory relatively.
