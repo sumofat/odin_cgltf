@@ -36,15 +36,15 @@ result :: enum u32
 
 memory_options :: struct
 {
-    alloc:     proc(user: rawptr, size: cgltf_size) -> rawptr,
-    free:      proc(user: rawptr, ptr: rawptr),
+    alloc:     proc "c" (user: rawptr, size: cgltf_size) -> rawptr,
+    free:      proc "c" (user: rawptr, ptr: rawptr),
     user_data: rawptr,
 };
 
 file_options ::  struct 
 {
-    read : proc(memory_options : ^memory_options,file_options : ^file_options,path : cstring,size : ^cgltf_size,data :  ^rawptr) -> result,
-    release : proc(memory_options : ^memory_options,file_options : ^file_options,data : rawptr),
+    read : proc "c" (memory_options : ^memory_options,file_options : ^file_options,path : cstring,size : ^cgltf_size,data :  ^rawptr) -> result,
+    release : proc "c" (memory_options : ^memory_options,file_options : ^file_options,data : rawptr),
     user_data : rawptr,
 };
 
