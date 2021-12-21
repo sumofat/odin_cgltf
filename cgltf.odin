@@ -488,7 +488,7 @@ node :: struct {
 	translation:      [3]cgltf_float,
 	rotation:         [4]cgltf_float,
 	scale:            [3]cgltf_float,
-	matrix:           [16]cgltf_float,
+	m:           [16]cgltf_float,
 	extra:            extras,
 	extensions_count: cgltf_size,
 	extensions:       [^]extension,
