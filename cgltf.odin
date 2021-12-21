@@ -4,6 +4,7 @@ package cgltf
 
 import "core:c"
 
+//NOTE:(RAY):After you build the lib you specify your path to the lib here if needed
 when ODIN_OS == "windows" {foreign import cgltf"cgltf.lib"}
 when ODIN_OS == "linux" {foreign import cgltf"system:cgltf"}
 when ODIN_OS == "darwin" {foreign import cgltf"system:cgltf"}
