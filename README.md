@@ -10,7 +10,7 @@ The cgltf prefix removed from struct and procedure names.
 The extras variable naming was renamed to singuar version where circular naming references and conflicts ocuured.
 The data variable naming also renamed in some places for the same reason.
 
-### Compatible with cgltf version 1.10
+### Compatible with cgltf version 1.12
 
 # Instructions
 
