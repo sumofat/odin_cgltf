@@ -1,14 +1,14 @@
-// Compatible with cgltf version 1.10
+// Compatible with cgltf version 1.12
 
 package cgltf
 
 import "core:c"
 
 //NOTE:(RAY):After you build the lib you specify your path to the lib here if needed
-when ODIN_OS == "windows" {foreign import cgltf"cgltf.lib"}
-when ODIN_OS == "linux" {foreign import cgltf"system:cgltf"}
-when ODIN_OS == "darwin" {foreign import cgltf"system:cgltf"}
-when ODIN_OS == "freebsd" {foreign import cgltf"system:cgltf"}
+when ODIN_OS == .Windows {foreign import cgltf"cgltf.lib"}
+when ODIN_OS == .Linux {foreign import cgltf"system:cgltf"}
+when ODIN_OS == .Darwin {foreign import cgltf"system:cgltf"}
+when ODIN_OS == .FreeBSD {foreign import cgltf"system:cgltf"}
 
 cgltf_size  :: c.size_t;
 cgltf_bool  :: b32
@@ -69,6 +69,7 @@ attribute_type :: enum u32 {
 	color,
 	joints,
 	weights,
+	custom,
 }
 
 component_type :: enum u32 {
@@ -135,6 +136,12 @@ light_type :: enum u32 {
 	spot,
 }
 
+data_free_method :: enum u32{
+	none,
+	file_release,
+	memory_free,
+} 
+
 extras :: struct {
 	start_offset: cgltf_size,
 	end_offset:   cgltf_size,
@@ -150,6 +157,7 @@ buffer :: struct {
 	size:             cgltf_size,
 	uri:              cstring,
 	data:             rawptr, /*loaded by load_buffers */
+	data_free_method : data_free_method,
 	extra:            extras,
 	extensions_count: cgltf_size,
 	extensions:       ^extension,
@@ -262,8 +270,10 @@ sampler :: struct {
 
 texture :: struct {
 	name:             cstring,
-	image:            ^image,
+	image_ref:            ^image,
 	sampler:          ^sampler,
+	has_basisu :      cgltf_bool,
+	basisu_image :    ^image,
 	extra:            extras,
 	extensions_count: cgltf_size,
 	extensions:       [^]extension,
@@ -273,6 +283,7 @@ texture_transform :: struct {
 	offset:   [2]cgltf_float,
 	rotation: cgltf_float,
 	scale:    [2]cgltf_float,
+	has_texcoord : bool,
 	texcoord: cgltf_int,
 }
 
@@ -342,6 +353,19 @@ sheen :: struct {
 	sheen_roughness_factor:  cgltf_float,
 }
 
+emissive_strength :: struct{
+	emissive_strength : cgltf_float,
+} 
+
+iridescence :: struct{
+	iridescence_factor : cgltf_float,
+	iridescence_texture : texture_view,
+	iridescence_ior : cgltf_float,
+	iridescence_thickness_min : cgltf_float,
+	iridescence_thickness_max : cgltf_float,
+	iridescence_thickness_texture : texture_view,
+} 
+
 material :: struct {
 	name:                        cstring,
 	has_pbr_metallic_roughness:  cgltf_bool,
@@ -352,6 +376,8 @@ material :: struct {
 	has_ior:                     cgltf_bool,
 	has_specular:                cgltf_bool,
 	has_sheen:                   cgltf_bool,
+	has_emissive_strength :      cgltf_bool,
+	has_iridescence :            cgltf_bool,
 	pbr_metallic_roughness:      pbr_metallic_roughness,
 	pbr_specular_glossiness:     pbr_specular_glossiness,
 	clearcoat:                   clearcoat,
@@ -360,6 +386,8 @@ material :: struct {
 	sheen:                       sheen,
 	transmission:                transmission,
 	volume:                      volume,
+	emissive_strength : emissive_strength,
+	iridescence : iridescence,
 	normal_texture:              texture_view,
 	occlusion_texture:           texture_view,
 	emissive_texture:            texture_view,
@@ -389,6 +417,11 @@ draco_mesh_compression :: struct {
 	attributes:       [^]attribute,
 	attributes_count: cgltf_size,
 }
+mesh_gpu_instancing :: struct{
+	buffer_view : ^buffer_view,
+	attributes : [^]attribute,
+	attributes_count : cgltf_size,
+}
 
 primitive :: struct {
 	type:                       primitive_type,
@@ -405,6 +438,7 @@ primitive :: struct {
 	mappings_count:             cgltf_size,
 	extensions_count:           cgltf_size,
 	extensions:                 [^]extension,
+	extras : extras,
 }
 
 mesh :: struct {
@@ -490,7 +524,9 @@ node :: struct {
 	rotation:         [4]cgltf_float,
 	scale:            [3]cgltf_float,
 	m:           [16]cgltf_float,
-	extra:            extras,
+	extra :            extras,
+	has_mesh_gpu_instancing : cgltf_bool,
+	mesh_gpu_instancing : mesh_gpu_instancing,
 	extensions_count: cgltf_size,
 	extensions:       [^]extension,
 }
