@@ -1,0 +1,8 @@
+gltf: cgltf.lib
+
+libcgltf.a: cgltf/cgltf.h
+	copy "cgltf\cgltf.h" "cgltf.c"
+	cl /DCGLTF_IMPLEMENTATION /c cgltf.c
+	lib -s -r cgltf.lib cgltf.obj
+	del cgltf.obj
+	del cgltf.c
