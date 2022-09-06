@@ -5,10 +5,10 @@ package cgltf
 import "core:c"
 
 //NOTE:(RAY):After you build the lib you specify your path to the lib here if needed
-when ODIN_OS == .Windows {foreign import cgltf"cgltf.lib"}
-when ODIN_OS == .Linux {foreign import cgltf"system:cgltf"}
-when ODIN_OS == .Darwin {foreign import cgltf"system:cgltf"}
-when ODIN_OS == .FreeBSD {foreign import cgltf"system:cgltf"}
+when ODIN_OS == .Windows {foreign import cgltf "libs/cgltf.lib"}
+when ODIN_OS == .Linux 	 {foreign import cgltf "libs/libcgltf.a"}
+when ODIN_OS == .Darwin  {foreign import cgltf "system:cgltf"}
+when ODIN_OS == .FreeBSD {foreign import cgltf "system:cgltf"}
 
 cgltf_size  :: c.size_t;
 cgltf_bool  :: b32

@@ -1,0 +1,9 @@
+.PHONY: gltf
+gltf: libcgltf.a
+
+libcgltf.a: cgltf/cgltf.h
+	cp cgltf/cgltf.h cgltf.c
+	gcc -D CGLTF_IMPLEMENTATION -c cgltf.c
+	ar -s -r libcgltf.a cgltf.o
+	rm cgltf.o
+	rm cgltf.c
