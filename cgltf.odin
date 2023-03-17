@@ -438,7 +438,6 @@ primitive :: struct {
 	mappings_count:             cgltf_size,
 	extensions_count:           cgltf_size,
 	extensions:                 [^]extension,
-	extras : extras,
 }
 
 mesh :: struct {
